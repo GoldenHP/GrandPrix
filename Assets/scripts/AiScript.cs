@@ -23,22 +23,36 @@ public class AiScript : Agent
     public List<Transform> checkpoints;
     private int CurrentCheckpoint;
 
+    [Header("Training")]
+    [SerializeField] public int MaxSteps = 0;
+
     private Vector3 StartingPosition;
     private Quaternion StartingRotation;
 
     private float PreviousDistance;
+
+    private int currentEpisode = 0;
+    private float cumulativeReward = 0f;
+    private int currentSteps = 0;
 
     public override void Initialize()
     {
         rb= GetComponent<Rigidbody>();
         StartingPosition = transform.position;
         StartingRotation = transform.rotation;
+
+        currentEpisode = 0;
+        cumulativeReward = 0f;
     }
 
     public override void OnEpisodeBegin()
     {
-        rb.linearVelocity = Vector3.zero;
-        rb.angularVelocity = Vector3.zero;
+        currentEpisode = 0;
+        cumulativeReward = 0f;
+        currentSteps = 0;
+
+        //rb.linearVelocity = Vector3.zero;
+        //rb.angularVelocity = Vector3.zero;
 
         CurrentCheckpoint = 0;
 
@@ -53,15 +67,27 @@ public class AiScript : Agent
         Vector3 dirToCheckpoint = (checkpoints[CurrentCheckpoint].position - transform.position).normalized;
         Vector3 localDir = transform.InverseTransformDirection(dirToCheckpoint);
 
-        sensor.AddObservation(localDir);
+        //The Python backend running the ML agents has the sensors run on floats. So we are determing how the floats are formed.
+        float[] localDirArray = { localDir.x, localDir.y, localDir.z };
 
-        sensor.AddObservation(transform.forward);
+        //sensor.AddObservation(localDir);
+
+        //sensor.AddObservation(transform.forward);
+        //sensor.AddObservation(checkpoints[CurrentCheckpoint].transform);
+        sensor.AddObservation(localDirArray[0]);
+        sensor.AddObservation(localDirArray[1]);
+        sensor.AddObservation(localDirArray[2]);
+
+        sensor.AddObservation(checkpoints[CurrentCheckpoint].transform.position.x/5f);
+        sensor.AddObservation(checkpoints[CurrentCheckpoint].transform.position.y/5f);
+        sensor.AddObservation(checkpoints[CurrentCheckpoint].transform.position.z/5f);
     }
 
     public override void OnActionReceived(ActionBuffers actions)
     {
-        steer = Mathf.Clamp(actions.ContinuousActions[0], -1f, 1f);
-        throttle = Mathf.Clamp(actions.ContinuousActions[1], -1f, 1f);
+        //Contenuous actions determined by Heuristic
+        steer = Mathf.Clamp(actions.ContinuousActions[1], -1f, 1f);
+        throttle = Mathf.Clamp(actions.ContinuousActions[2], -1f, 1f);
 
         //Reward system for moving
         float currentDistance = Vector3.Distance(transform.position, checkpoints[CurrentCheckpoint].position);
@@ -70,7 +96,26 @@ public class AiScript : Agent
         PreviousDistance = currentDistance;
 
         //Penalty for Time
-        AddReward(0.001f);
+        AddReward(-0.001f);
+
+        //The functions for moving the car. Same as player actions
+        ApplyAcceleration();
+        ApplySteering();
+        ApplyGrip();
+        ApplyDownforce();
+        ClampSpeed();
+
+        Debug.Log("Throttle: " + throttle);
+        Debug.Log("Steer: " + steer);
+
+        cumulativeReward = GetCumulativeReward();
+
+        currentSteps++;
+        if(currentSteps == MaxSteps)
+        {
+            AddReward(-2f);
+            EndEpisode();
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -105,8 +150,8 @@ public class AiScript : Agent
     {
         var ContenuousActions = actionsOut.ContinuousActions;
 
-        ContenuousActions[0] = Input.GetAxis("Vertical");
-        ContenuousActions[1] = Input.GetAxis("Horizontal");
+        ContenuousActions[1] = Input.GetAxis("Vertical");
+        ContenuousActions[2] = Input.GetAxis("Horizontal");
     }
 
     void ApplyAcceleration()
@@ -143,18 +188,5 @@ public class AiScript : Agent
         {
             rb.linearVelocity = rb.linearVelocity.normalized * maxspeed;
         }
-    }
-
-    public void FixedUpdate()
-    {
-        //Turn and Steer
-        ApplyAcceleration();
-        ApplySteering();
-        ApplyGrip();
-        ApplyDownforce();
-        ClampSpeed();
-
-        Debug.Log("Throttle: " + throttle);
-        Debug.Log("Steer: " + steer);
     }
 }

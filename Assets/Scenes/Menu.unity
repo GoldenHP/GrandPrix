@@ -308,14 +308,14 @@ Light:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 358618730}
   m_Enabled: 1
-  serializedVersion: 11
+  serializedVersion: 12
   m_Type: 1
   m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
   m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
-  m_CookieSize: 10
+  m_CookieSize2D: {x: 10, y: 10}
   m_Shadows:
     m_Type: 2
     m_Resolution: -1
@@ -475,6 +475,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1498816769511251586, guid: b0ab656c8a1a1454682b8119b0bb65e6, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1664956595}
+    - targetCorrespondingSourceObject: {fileID: 1498816769511251586, guid: b0ab656c8a1a1454682b8119b0bb65e6, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1664956598}
   m_SourcePrefab: {fileID: 100100000, guid: b0ab656c8a1a1454682b8119b0bb65e6, type: 3}
 --- !u!1 &1327690448
 GameObject:
@@ -972,6 +975,7 @@ MonoBehaviour:
   - {fileID: 254618271}
   - {fileID: 113591360}
   - {fileID: 1392256514}
+  MaxSteps: 5000
 --- !u!114 &1664956597
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -985,23 +989,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.ML-Agents::Unity.MLAgents.Policies.BehaviorParameters
   m_BrainParameters:
-    VectorObservationSize: 1
+    VectorObservationSize: 7
     NumStackedVectorObservations: 1
     m_ActionSpec:
-      m_NumContinuousActions: 0
-      BranchSizes: 01000000
-    VectorActionSize: 01000000
+      m_NumContinuousActions: 3
+      BranchSizes: 
+    VectorActionSize: 03000000
     VectorActionDescriptions: []
-    VectorActionSpaceType: 0
+    VectorActionSpaceType: 1
     hasUpgradedBrainParametersWithActionSpec: 1
   m_Model: {fileID: 0}
   m_InferenceDevice: 0
   m_BehaviorType: 0
-  m_BehaviorName: My Behavior
+  m_BehaviorName: AI Car Behavior
   TeamId: 0
   m_UseChildSensors: 1
   m_UseChildActuators: 1
   m_ObservableAttributeHandling: 0
+--- !u!114 &1664956598
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1664956590}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a5c9d521e5ef4759a8246a07d52221e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.ML-Agents::Unity.MLAgents.DecisionRequester
+  DecisionPeriod: 5
+  TakeActionsBetweenDecisions: 1
 --- !u!1 &1749642580
 GameObject:
   m_ObjectHideFlags: 0
@@ -1324,6 +1342,7 @@ MonoBehaviour:
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
