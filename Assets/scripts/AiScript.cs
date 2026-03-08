@@ -70,24 +70,26 @@ public class AiScript : Agent
         //The Python backend running the ML agents has the sensors run on floats. So we are determing how the floats are formed.
         float[] localDirArray = { localDir.x, localDir.y, localDir.z };
 
-        //sensor.AddObservation(localDir);
+        sensor.AddObservation(localDir);
 
-        //sensor.AddObservation(transform.forward);
+        sensor.AddObservation(transform.forward);
         //sensor.AddObservation(checkpoints[CurrentCheckpoint].transform);
-        sensor.AddObservation(localDirArray[0]);
+        /*sensor.AddObservation(localDirArray[0]);
         sensor.AddObservation(localDirArray[1]);
         sensor.AddObservation(localDirArray[2]);
 
         sensor.AddObservation(checkpoints[CurrentCheckpoint].transform.position.x/5f);
         sensor.AddObservation(checkpoints[CurrentCheckpoint].transform.position.y/5f);
-        sensor.AddObservation(checkpoints[CurrentCheckpoint].transform.position.z/5f);
+        sensor.AddObservation(checkpoints[CurrentCheckpoint].transform.position.z/5f);*/
     }
 
     public override void OnActionReceived(ActionBuffers actions)
     {
         //Contenuous actions determined by Heuristic
         steer = Mathf.Clamp(actions.ContinuousActions[1], -1f, 1f);
-        throttle = Mathf.Clamp(actions.ContinuousActions[2], -1f, 1f);
+        throttle = Mathf.Clamp(actions.ContinuousActions[2], 0f, 1f);
+        if (throttle < 0f)
+            AddReward(-throttle);
 
         //Reward system for moving
         float currentDistance = Vector3.Distance(transform.position, checkpoints[CurrentCheckpoint].position);
@@ -122,7 +124,7 @@ public class AiScript : Agent
     {
         if(other.transform == checkpoints[CurrentCheckpoint])
         {
-            AddReward(1.0f);
+            AddReward(10.0f);
             CurrentCheckpoint++;
 
             if(CurrentCheckpoint >= checkpoints.Count)
@@ -144,6 +146,20 @@ public class AiScript : Agent
             EndEpisode();
         }
          */
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Wall")
+            AddReward(-1f);
+        else if (collision.gameObject.tag == "Track")
+            AddReward(.00001f);
+    }
+
+    private void OnCollisionStay(Collision collision)
+    {
+        if(collision.gameObject.tag == "Wall")
+            AddReward(-.1f);
     }
 
     public override void Heuristic(in ActionBuffers actionsOut)
