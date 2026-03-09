@@ -88,8 +88,6 @@ public class AiScript : Agent
         //Contenuous actions determined by Heuristic
         steer = Mathf.Clamp(actions.ContinuousActions[1], -1f, 1f);
         throttle = Mathf.Clamp(actions.ContinuousActions[2], 0f, 1f);
-        if (throttle < 0f)
-            AddReward(-throttle);
 
         //Reward system for moving
         float currentDistance = Vector3.Distance(transform.position, checkpoints[CurrentCheckpoint].position);
@@ -98,7 +96,7 @@ public class AiScript : Agent
         PreviousDistance = currentDistance;
 
         //Penalty for Time
-        AddReward(-0.001f);
+        //AddReward(-0.001f);
 
         //The functions for moving the car. Same as player actions
         ApplyAcceleration();
@@ -107,17 +105,19 @@ public class AiScript : Agent
         ApplyDownforce();
         ClampSpeed();
 
-        Debug.Log("Throttle: " + throttle);
-        Debug.Log("Steer: " + steer);
+        //Debug.Log("Throttle: " + throttle);
+        //Debug.Log("Steer: " + steer);
 
         cumulativeReward = GetCumulativeReward();
+        Debug.Log("Current Reward: " + cumulativeReward);
 
         currentSteps++;
-        if(currentSteps == MaxSteps)
+        Debug.Log("Current Step: " +  currentSteps);
+        /*if(currentSteps == MaxSteps)
         {
             AddReward(-2f);
             EndEpisode();
-        }
+        }*/
     }
 
     private void OnTriggerEnter(Collider other)
