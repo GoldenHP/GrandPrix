@@ -35,154 +35,192 @@ public class AiScript : Agent
     private float cumulativeReward = 0f;
     private int currentSteps = 0;
 
+
+    [Header("Reward Weights")]
+    [Tooltip("Multiplier for distance-progress reward each step")]
+    public float progressRewardScale = 1.0f;
+
+    [Tooltip("Reward for passing a checkpoint")]
+    public float checkpointReward = 10.0f;
+
+    [Tooltip("Bonus reward for completing a full lap")]
+    public float lapCompletionBonus = 20.0f;
+
+    [Tooltip("Penalty per step for sitting still (speed below idle threshold)")]
+    public float idlePenaltyPerStep = -0.005f;
+
+    [Tooltip("Speed below this (m/s) is considered idle")]
+    public float idleSpeedThreshold = 1.5f;
+
+    [Tooltip("Penalty on first wall contact")]
+    public float wallHitPenalty = -2.0f;
+
+    [Tooltip("Penalty per step while grinding a wall")]
+    public float wallGrindPenalty = -0.5f;
+
+    [Tooltip("How strongly heading alignment is rewarded (0 = off)")]
+    public float headingAlignScale = 0.3f;
+
+    [Tooltip("Per-step time penalty to encourage speed (set 0 to disable)")]
+    public float timePenaltyPerStep = -0.001f;
+
+
+    private bool touchingWall = false;
+
     public override void Initialize()
     {
-        rb= GetComponent<Rigidbody>();
+        rb = GetComponent<Rigidbody>();
         StartingPosition = transform.position;
         StartingRotation = transform.rotation;
-
-        currentEpisode = 0;
-        cumulativeReward = 0f;
     }
 
     public override void OnEpisodeBegin()
     {
-        currentEpisode = 0;
+        currentEpisode++;
         cumulativeReward = 0f;
         currentSteps = 0;
+        touchingWall = false;
 
-        //rb.linearVelocity = Vector3.zero;
-        //rb.angularVelocity = Vector3.zero;
+
+        rb.linearVelocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
+        transform.position = StartingPosition;
+        transform.rotation = StartingRotation;
 
         CurrentCheckpoint = 0;
-
         PreviousDistance = Vector3.Distance(transform.position, checkpoints[CurrentCheckpoint].position);
 
+        Debug.Log($"=== Episode {currentEpisode} Begin ===");
     }
 
     public override void CollectObservations(VectorSensor sensor)
     {
-        sensor.AddObservation(rb.linearVelocity.magnitude / 20f);
+
+        sensor.AddObservation(rb.linearVelocity.magnitude / maxspeed);
+
 
         Vector3 dirToCheckpoint = (checkpoints[CurrentCheckpoint].position - transform.position).normalized;
-        Vector3 localDir = transform.InverseTransformDirection(dirToCheckpoint);
+        sensor.AddObservation(transform.InverseTransformDirection(dirToCheckpoint));
 
-        //The Python backend running the ML agents has the sensors run on floats. So we are determing how the floats are formed.
-        float[] localDirArray = { localDir.x, localDir.y, localDir.z };
-
-        sensor.AddObservation(localDir);
 
         sensor.AddObservation(transform.forward);
-        //sensor.AddObservation(checkpoints[CurrentCheckpoint].transform);
-        /*sensor.AddObservation(localDirArray[0]);
-        sensor.AddObservation(localDirArray[1]);
-        sensor.AddObservation(localDirArray[2]);
 
-        sensor.AddObservation(checkpoints[CurrentCheckpoint].transform.position.x/5f);
-        sensor.AddObservation(checkpoints[CurrentCheckpoint].transform.position.y/5f);
-        sensor.AddObservation(checkpoints[CurrentCheckpoint].transform.position.z/5f);*/
+
+        float dist = Vector3.Distance(transform.position, checkpoints[CurrentCheckpoint].position);
+        sensor.AddObservation(dist / 100f);   
+
+
     }
 
     public override void OnActionReceived(ActionBuffers actions)
     {
-        //Contenuous actions determined by Heuristic
+
+        throttle = Mathf.Clamp(actions.ContinuousActions[0], 0f, 1f);  
         steer = Mathf.Clamp(actions.ContinuousActions[1], -1f, 1f);
-        throttle = Mathf.Clamp(actions.ContinuousActions[2], 0f, 1f);
 
-        //Reward system for moving
-        float currentDistance = Vector3.Distance(transform.position, checkpoints[CurrentCheckpoint].position);
-        float progress = PreviousDistance - currentDistance;
-        AddReward(progress * 0.5f);
-        PreviousDistance = currentDistance;
 
-        //Penalty for Time
-        //AddReward(-0.001f);
-
-        //The functions for moving the car. Same as player actions
         ApplyAcceleration();
         ApplySteering();
         ApplyGrip();
         ApplyDownforce();
         ClampSpeed();
 
-        //Debug.Log("Throttle: " + throttle);
-        //Debug.Log("Steer: " + steer);
 
-        cumulativeReward = GetCumulativeReward();
-        Debug.Log("Current Reward: " + cumulativeReward);
+
+ 
+        float currentDistance = Vector3.Distance(transform.position, checkpoints[CurrentCheckpoint].position);
+        float progress = PreviousDistance - currentDistance;
+        AddReward(progress * progressRewardScale);
+        PreviousDistance = currentDistance;
+
+
+        Vector3 toCheckpoint = (checkpoints[CurrentCheckpoint].position - transform.position).normalized;
+        float alignment = Vector3.Dot(transform.forward, toCheckpoint); 
+        AddReward(alignment * headingAlignScale * Time.fixedDeltaTime);
+
+
+        if (rb.linearVelocity.magnitude < idleSpeedThreshold)
+            AddReward(idlePenaltyPerStep);
+
+
+        AddReward(timePenaltyPerStep);
+
 
         currentSteps++;
-        Debug.Log("Current Step: " +  currentSteps);
-        /*if(currentSteps == MaxSteps)
-        {
-            AddReward(-2f);
-            EndEpisode();
-        }*/
+        cumulativeReward = GetCumulativeReward();
+
+        if (currentSteps % 200 == 0)
+            Debug.Log($"[Ep {currentEpisode}] Step {currentSteps} | Reward {cumulativeReward:F3} | Speed {rb.linearVelocity.magnitude:F1} m/s | CP {CurrentCheckpoint}/{checkpoints.Count}");
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.transform == checkpoints[CurrentCheckpoint])
-        {
-            AddReward(10.0f);
-            CurrentCheckpoint++;
+        if (other.transform != checkpoints[CurrentCheckpoint]) return;
 
-            if(CurrentCheckpoint >= checkpoints.Count)
-            {
-                CurrentCheckpoint = 0;
-                AddReward(5f);
-                EndEpisode();
-            }
-            else
-            {
-                PreviousDistance = Vector3.Distance(transform.position, checkpoints[CurrentCheckpoint].position);
-            }
-        }
+        AddReward(checkpointReward);
+        CurrentCheckpoint++;
 
-        /*
-         if(other.CompareTag("Wall")
+        if (CurrentCheckpoint >= checkpoints.Count)
         {
-            AddReward(-2f);
+
+            AddReward(lapCompletionBonus);
+            Debug.Log($"[Ep {currentEpisode}] LAP COMPLETE — total reward: {GetCumulativeReward():F2}");
             EndEpisode();
         }
-         */
+        else
+        {
+            PreviousDistance = Vector3.Distance(transform.position, checkpoints[CurrentCheckpoint].position);
+            Debug.Log($"[Ep {currentEpisode}] Checkpoint {CurrentCheckpoint}/{checkpoints.Count} reached");
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Wall")
-            AddReward(-1f);
-        else if (collision.gameObject.tag == "Track")
-            AddReward(.00001f);
+        switch (collision.gameObject.tag)
+        {
+            case "Wall":
+                AddReward(wallHitPenalty);
+                touchingWall = true;
+                break;
+
+            case "Track":
+
+                AddReward(0.00001f);
+                break;
+        }
     }
 
     private void OnCollisionStay(Collision collision)
     {
-        if(collision.gameObject.tag == "Wall")
-            AddReward(-.1f);
+        if (collision.gameObject.tag == "Wall")
+            AddReward(wallGrindPenalty * Time.fixedDeltaTime); 
     }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.tag == "Wall")
+            touchingWall = false;
+    }
+
 
     public override void Heuristic(in ActionBuffers actionsOut)
     {
-        var ContenuousActions = actionsOut.ContinuousActions;
-
-        ContenuousActions[1] = Input.GetAxis("Vertical");
-        ContenuousActions[2] = Input.GetAxis("Horizontal");
+        var ca = actionsOut.ContinuousActions;
+        ca[0] = Input.GetAxis("Vertical");    
+        ca[1] = Input.GetAxis("Horizontal");  
     }
+
 
     void ApplyAcceleration()
     {
         if (rb.linearVelocity.magnitude < maxspeed)
-        {
             rb.AddForce(transform.forward * throttle * acceleration, ForceMode.Acceleration);
-        }
     }
 
     void ApplySteering()
     {
-        float speedfactor = rb.linearVelocity.magnitude / maxspeed;
-        float turn = steer * turnstrength * speedfactor * Time.fixedDeltaTime;
-
+        float speedFactor = rb.linearVelocity.magnitude / maxspeed;
+        float turn = steer * turnstrength * speedFactor * Time.fixedDeltaTime;
         rb.MoveRotation(rb.rotation * Quaternion.Euler(0f, turn, 0f));
     }
 
@@ -201,8 +239,6 @@ public class AiScript : Agent
     void ClampSpeed()
     {
         if (rb.linearVelocity.magnitude > maxspeed)
-        {
             rb.linearVelocity = rb.linearVelocity.normalized * maxspeed;
-        }
     }
 }
