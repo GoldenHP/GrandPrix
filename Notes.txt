@@ -1,0 +1,4 @@
+Hi! If your reading this your watching my notes per day as I Train the ML Cars, This is personal so that I can keep track of the project. 
+
+Training day 1 and 2: 
+	These are together as I actually started these notes on day 2. First day went terribly because my code for the agent was TERRIBLE. Like bro wasn't learning anything. During day 2 I revamped the code inside AiCar.cs and the training is going much better. (Yippie)
