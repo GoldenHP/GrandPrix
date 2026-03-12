@@ -1,6 +1,6 @@
 default_settings: null
 behaviors:
-  CarAgent:
+  RacingCar:
     trainer_type: ppo
     hyperparameters:
       batch_size: 1024
@@ -38,7 +38,7 @@ behaviors:
     init_path: null
     keep_checkpoints: 5
     even_checkpoints: false
-    max_steps: 500000
+    max_steps: 500000000
     time_horizon: 64
     summary_freq: 50000
     threaded: false
@@ -66,10 +66,10 @@ engine_settings:
   no_graphics_monitor: false
 environment_parameters: null
 checkpoint_settings:
-  run_id: AICar2
+  run_id: F1
   initialize_from: null
   load_model: false
-  resume: true
+  resume: false
   force: false
   train_model: false
   inference: false

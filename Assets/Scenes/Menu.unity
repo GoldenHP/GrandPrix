@@ -968,7 +968,7 @@ MonoBehaviour:
   agentParameters:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
-  MaxStep: 0
+  MaxStep: 50000
   acceleration: 35
   maxspeed: 25
   turnstrength: 120
@@ -978,7 +978,16 @@ MonoBehaviour:
   - {fileID: 254618271}
   - {fileID: 113591360}
   - {fileID: 1392256514}
-  MaxSteps: 5000
+  MaxSteps: 50000
+  progressRewardScale: 1
+  checkpointReward: 10
+  lapCompletionBonus: 20
+  idlePenaltyPerStep: -0.005
+  idleSpeedThreshold: 1.5
+  wallHitPenalty: -2
+  wallGrindPenalty: -0.5
+  headingAlignScale: 0.3
+  timePenaltyPerStep: -0.001
 --- !u!114 &1664956597
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -992,19 +1001,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.ML-Agents::Unity.MLAgents.Policies.BehaviorParameters
   m_BrainParameters:
-    VectorObservationSize: 7
+    VectorObservationSize: 8
     NumStackedVectorObservations: 1
     m_ActionSpec:
-      m_NumContinuousActions: 3
+      m_NumContinuousActions: 2
       BranchSizes: 
-    VectorActionSize: 03000000
+    VectorActionSize: 02000000
     VectorActionDescriptions: []
     VectorActionSpaceType: 1
     hasUpgradedBrainParametersWithActionSpec: 1
   m_Model: {fileID: 0}
   m_InferenceDevice: 0
   m_BehaviorType: 0
-  m_BehaviorName: CarAgent
+  m_BehaviorName: RacingCar
   TeamId: 0
   m_UseChildSensors: 1
   m_UseChildActuators: 1
