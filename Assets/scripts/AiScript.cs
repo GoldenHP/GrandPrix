@@ -151,6 +151,9 @@ public class AiScript : Agent
 
         if (currentSteps % 200 == 0)
             Debug.Log($"[Ep {currentEpisode}] Step {currentSteps} | Reward {cumulativeReward:F3} | Speed {rb.linearVelocity.magnitude:F1} m/s | CP {CurrentCheckpoint}/{checkpoints.Count}");
+
+        if (transform.position.y < StartingPosition.y - 10)
+            CarReset();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -240,5 +243,14 @@ public class AiScript : Agent
     {
         if (rb.linearVelocity.magnitude > maxspeed)
             rb.linearVelocity = rb.linearVelocity.normalized * maxspeed;
+    }
+
+    private void CarReset()
+    {
+        StartingPosition.y += 10;
+        transform.position = StartingPosition;
+        StartingPosition.y -= 10;
+        transform.rotation = StartingRotation;
+        //EndEpisode();
     }
 }

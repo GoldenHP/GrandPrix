@@ -2264,17 +2264,17 @@ MonoBehaviour:
   agentParameters:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
-  MaxStep: 50000
-  acceleration: 35
-  maxspeed: 25
-  turnstrength: 120
+  MaxStep: 100000
+  acceleration: 50
+  maxspeed: 300
+  turnstrength: 200
   driftGrip: 0.95
   downForce: 50
   checkpoints:
   - {fileID: 254618271}
   - {fileID: 113591360}
   - {fileID: 1392256514}
-  MaxSteps: 50000
+  MaxSteps: 100000
   progressRewardScale: 1
   checkpointReward: 10
   lapCompletionBonus: 20
