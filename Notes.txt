@@ -10,3 +10,6 @@ Commands to run to start Training:
 	cd "C:\Users\logan\OneDrive\Documents\Work\499 Capstone\Grand Prix Pedal to the Medal"
 	conda activate MlUnity
 	mlagents-learn Configs\(configfilename.yaml) --run-id=(RunID) --resume (If Contenuing) 
+
+Training day 5:
+	Continued training on Oval Outskirts circuit. AI seems to really like Walls.
