@@ -13,12 +13,13 @@ public class GameModeSelector : MonoBehaviour
 
     private Maps SelectedMap;
 
-    private UnityEngine.SceneManagement.Scene OvalOut;
-    private UnityEngine.SceneManagement.Scene OvalCity;
-    private UnityEngine.SceneManagement.Scene Formula1;
-    private UnityEngine.SceneManagement.Scene Formula8;
-    private UnityEngine.SceneManagement.Scene Coastal;
-    private UnityEngine.SceneManagement.Scene MainMenu;
+    private const int IDX_OVALCITY = 0;
+    private const int IDX_FORMULA1 = 1;
+    private const int IDX_OVALOUT = 2;
+    private const int IDX_FORMULA8 = 3;
+    private const int IDX_COASTAL = 4;
+    private const int IDX_MAINMENU = 5;
+
 
     private GameObject GameMode;
     private GameObject MapMenu;
@@ -36,12 +37,7 @@ public class GameModeSelector : MonoBehaviour
     private void Start()
     {
         //Manager = GetComponent<SceneManager>();
-        OvalOut = SceneManager.GetSceneByBuildIndex(3);
-        OvalCity = SceneManager.GetSceneByBuildIndex(1);
-        Formula1 = SceneManager.GetSceneByBuildIndex(2);
-        Formula8 = SceneManager.GetSceneByBuildIndex(4);
-        Coastal = SceneManager.GetSceneByBuildIndex(5);
-        MainMenu = SceneManager.GetSceneByBuildIndex(0);
+
 
         GameMode = transform.GetChild(3).gameObject;
         MapMenu = transform.GetChild(5).gameObject;
@@ -96,31 +92,37 @@ public class GameModeSelector : MonoBehaviour
 
     public void LoadGame()
     {
+        int index;
         SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene());
         switch (SelectedMap) 
         {
             case Maps.OVALOUT:
-                SceneManager.LoadSceneAsync(OvalOut.buildIndex);
-                SceneManager.SetActiveScene(OvalOut);               
+                index = IDX_OVALOUT;              
                 break;
             case Maps.COASTAL:
-                SceneManager.LoadSceneAsync(Coastal.buildIndex);
-                SceneManager.SetActiveScene(Coastal);
+                index = IDX_COASTAL;
                 break;
             case Maps.F1:
-                SceneManager.LoadSceneAsync(Formula1.buildIndex);
-                SceneManager.SetActiveScene(Formula1);
+                index = IDX_FORMULA1;
                 break;
             case Maps.F8:
-                SceneManager.LoadSceneAsync(Formula8.buildIndex);
-                SceneManager.SetActiveScene(Formula8);
+                index = IDX_FORMULA8;
                 break;
             case Maps.OVALCITY:
-                SceneManager.LoadSceneAsync(OvalCity.buildIndex);
-                SceneManager.SetActiveScene(OvalCity);
+                index = IDX_OVALCITY;
+                break;
+            default:
+                index = -1;
                 break;
         }
-        
+
+        if (index == -1)
+        {
+            Debug.LogError("Invalid Map selected!");
+            return;
+        }
+
+        SceneManager.LoadScene(index);
     }
 
     public void ExitMapSelection()

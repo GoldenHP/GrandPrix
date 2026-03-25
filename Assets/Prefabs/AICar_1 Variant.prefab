@@ -1,0 +1,157 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &2965010749663819296
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1498816769511251586, guid: b0ab656c8a1a1454682b8119b0bb65e6, type: 3}
+      propertyPath: m_Name
+      value: AICar_1 Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 1498816769511251586, guid: b0ab656c8a1a1454682b8119b0bb65e6, type: 3}
+      propertyPath: m_TagString
+      value: AI
+      objectReference: {fileID: 0}
+    - target: {fileID: 5309414689998635252, guid: b0ab656c8a1a1454682b8119b0bb65e6, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 76.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5309414689998635252, guid: b0ab656c8a1a1454682b8119b0bb65e6, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.41
+      objectReference: {fileID: 0}
+    - target: {fileID: 5309414689998635252, guid: b0ab656c8a1a1454682b8119b0bb65e6, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -130.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5309414689998635252, guid: b0ab656c8a1a1454682b8119b0bb65e6, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 5309414689998635252, guid: b0ab656c8a1a1454682b8119b0bb65e6, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5309414689998635252, guid: b0ab656c8a1a1454682b8119b0bb65e6, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 5309414689998635252, guid: b0ab656c8a1a1454682b8119b0bb65e6, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5309414689998635252, guid: b0ab656c8a1a1454682b8119b0bb65e6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5309414689998635252, guid: b0ab656c8a1a1454682b8119b0bb65e6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5309414689998635252, guid: b0ab656c8a1a1454682b8119b0bb65e6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 5252914760456972377, guid: b0ab656c8a1a1454682b8119b0bb65e6, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1498816769511251586, guid: b0ab656c8a1a1454682b8119b0bb65e6, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3814639280586895506}
+    - targetCorrespondingSourceObject: {fileID: 1498816769511251586, guid: b0ab656c8a1a1454682b8119b0bb65e6, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2464864831039585589}
+    - targetCorrespondingSourceObject: {fileID: 1498816769511251586, guid: b0ab656c8a1a1454682b8119b0bb65e6, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1702416487405757952}
+  m_SourcePrefab: {fileID: 100100000, guid: b0ab656c8a1a1454682b8119b0bb65e6, type: 3}
+--- !u!1 &4461106219036240034 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1498816769511251586, guid: b0ab656c8a1a1454682b8119b0bb65e6, type: 3}
+  m_PrefabInstance: {fileID: 2965010749663819296}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3814639280586895506
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4461106219036240034}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d1c4e0b1822b495aa52bc52839ecb30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.ML-Agents::Unity.MLAgents.Policies.BehaviorParameters
+  m_BrainParameters:
+    VectorObservationSize: 8
+    NumStackedVectorObservations: 1
+    m_ActionSpec:
+      m_NumContinuousActions: 2
+      BranchSizes: 
+    VectorActionSize: 02000000
+    VectorActionDescriptions: []
+    VectorActionSpaceType: 1
+    hasUpgradedBrainParametersWithActionSpec: 1
+  m_Model: {fileID: 0}
+  m_InferenceDevice: 0
+  m_BehaviorType: 0
+  m_BehaviorName: RacingCar
+  TeamId: 0
+  m_UseChildSensors: 1
+  m_UseChildActuators: 1
+  m_ObservableAttributeHandling: 0
+--- !u!114 &2464864831039585589
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4461106219036240034}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd7fc61c1b3332446a980f2f4142e43f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AiScript
+  agentParameters:
+    maxStep: 0
+  hasUpgradedFromAgentParameters: 1
+  MaxStep: 100000
+  acceleration: 50
+  maxspeed: 300
+  turnstrength: 200
+  driftGrip: 0.95
+  downForce: 50
+  checkpoints:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  MaxSteps: 100000
+  progressRewardScale: 1
+  checkpointReward: 10
+  lapCompletionBonus: 20
+  idlePenaltyPerStep: -0.005
+  idleSpeedThreshold: 1.5
+  wallHitPenalty: -2
+  wallGrindPenalty: -0.5
+  headingAlignScale: 0.3
+  timePenaltyPerStep: -0.001
+--- !u!114 &1702416487405757952
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4461106219036240034}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a5c9d521e5ef4759a8246a07d52221e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.ML-Agents::Unity.MLAgents.DecisionRequester
+  DecisionPeriod: 5
+  TakeActionsBetweenDecisions: 1

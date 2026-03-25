@@ -6,28 +6,29 @@ using TMPro;
 public class SettingsMenu : MonoBehaviour
 {
     [Header("Tabs")]
-    Button GraphicsTabButton;
-    Button AudioTabButton;
-    GameObject GraphicsPanel;
-    GameObject AudioPanel;
+    [SerializeField] Button GraphicsTabButton;
+    [SerializeField] Button AudioTabButton;
+    [SerializeField] GameObject GraphicsPanel;
+    [SerializeField] GameObject AudioPanel;
+    [SerializeField] GameObject TabPanel;
 
     [Header("Graphics ")]
-    TMP_Dropdown ResolutionDropDown;
-    TMP_Dropdown QualityDropDown;
-    Toggle FullscreenToggle;
-    TMP_Dropdown FPSDropDown;
+    [SerializeField] TMP_Dropdown ResolutionDropDown;
+    [SerializeField] TMP_Dropdown QualityDropDown;
+    [SerializeField] Toggle FullscreenToggle;
+    [SerializeField] TMP_Dropdown FPSDropDown;
 
     [Header("Audio")]
-    Slider MasterSlider;
-    Slider MusicSlider;
-    Slider SFXSlider;
-    TMP_Text MasterValueLabel;
-    TMP_Text MusicValueLabel;
-    TMP_Text SFXValueLabel;
+    [SerializeField] Slider MasterSlider;
+    [SerializeField] Slider MusicSlider;
+    [SerializeField] Slider SFXSlider;
+    [SerializeField] TMP_Text MasterValueLabel;
+    [SerializeField] TMP_Text MusicValueLabel;
+    [SerializeField] TMP_Text SFXValueLabel;
 
     [Header("Footer")]
-    Button ApplyButton;
-    Button CloseButton;
+    [SerializeField] Button ApplyButton;
+    [SerializeField] Button CloseButton;
 
     Resolution[] _resolutions;
 
@@ -42,7 +43,7 @@ public class SettingsMenu : MonoBehaviour
     private void OnEnable()
     {
         RefreshUIFromManagers();
-        ShowTab(GraphicsPanel);
+        ShowTab(TabPanel);
     }
 
     public void ShowGraphicsTab()
@@ -59,6 +60,7 @@ public class SettingsMenu : MonoBehaviour
     {
         GraphicsPanel.SetActive(activePanel == GraphicsPanel);
         AudioPanel.SetActive(activePanel == AudioPanel);
+        TabPanel.SetActive(activePanel == TabPanel);
     }
 
     void BuildResolutionDropDown()
@@ -104,7 +106,7 @@ public class SettingsMenu : MonoBehaviour
         ResolutionDropDown.SetValueWithoutNotify(s.ResolutionIndex);
         QualityDropDown.SetValueWithoutNotify(s.QualityIndex);
         FullscreenToggle.SetIsOnWithoutNotify(s.IsFullscreen);
-        FPSDropDown.SetValueWithoutNotify(FPSToDropdownIndex(s));
+        FPSDropDown.SetValueWithoutNotify(FPSToDropdownIndex(s.TargetFPS));
 
         MasterSlider.SetValueWithoutNotify(s.MasterVolume);
         MusicSlider.SetValueWithoutNotify(s.MusicVolume);
@@ -149,6 +151,11 @@ public class SettingsMenu : MonoBehaviour
     {
         RefreshUIFromManagers();
         gameObject.SetActive(false);
+
+        //This is TERRIBLE, WHAT AM I DOING?
+        //WHY DOES IT WORK :SOB:
+        //This is the most round about ass way to get that GameObject but im 100% not doing it the other way.
+        gameObject.transform.parent.transform.GetChild(2).gameObject.SetActive(true);
     }
 
     void UpdateVolumeLabels()
