@@ -50,51 +50,51 @@ public class GameModeSelector : MonoBehaviour
         MapButtons = MapMenu.GetComponentsInChildren<Button>();
     }
 
-    void AISelected()
+    public void AISelected()
     {
         GameConfig.SelectedMode = GameConfig.GameMode.VSAI;
         GameMode.SetActive(false);
         MapMenu.SetActive(true);
     }
 
-    void TimeTrialsSelected()
+    public void TimeTrialsSelected()
     {
         GameConfig.SelectedMode = GameConfig.GameMode.TIMETRIALS;
         GameMode.SetActive(false);
         MapMenu.SetActive(true);
     }
 
-    void Outskirts()
+    public void Outskirts()
     {
         SelectedMap = Maps.OVALOUT;
         LoadGame();
     }
 
-    void City()
+    public void City()
     {
         SelectedMap = Maps.OVALCITY;
         LoadGame();
     }
 
-    void F1()
+    public void F1()
     {
         SelectedMap = Maps.F1;
         LoadGame();
     }
 
-    void F8()
+    public void F8()
     {
         SelectedMap = Maps.F8;
         LoadGame();
     }
 
-    void Coast()
+    public void Coast()
     {
         SelectedMap = Maps.COASTAL;
         LoadGame();
     }
 
-    void LoadGame()
+    public void LoadGame()
     {
         SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene());
         switch (SelectedMap) 
@@ -121,5 +121,11 @@ public class GameModeSelector : MonoBehaviour
                 break;
         }
         
+    }
+
+    public void ExitMapSelection()
+    {
+        GameMode.SetActive(true);
+        MapMenu.SetActive(false);
     }
 }

@@ -26,24 +26,24 @@ public class MainMenu : MonoBehaviour
         GameModeButtons = GameMode.GetComponentsInChildren<Button>();
     }
 
-    void MainToGame()
+    public void MainToGame()
     {
         Main.SetActive(false);
         GameMode.SetActive(true);
     }
 
-    void MainToSettings()
+    public void MainToSettings()
     {
         Main.SetActive(false);
         Settings.SetActive(true);
     }
 
-    void ExitGame()
+    public void ExitGame()
     {
         Application.Quit();
     }
 
-    void GameToMain()
+    public void GameToMain()
     {
         GameMode.SetActive(false);
         Main.SetActive(true);
