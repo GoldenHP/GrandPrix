@@ -36,13 +36,13 @@ public class SettingsMenu : MonoBehaviour
          BuildResolutionDropDown();
          BuildQualityDropDown();
          BuildFPSDropDown();
-         //RegisterListeners();
+         RegisterEventListeners();
     }
 
     private void OnEnable()
     {
-        //RefreshUIFromManager();
-        //ShowTab(graphicsPanel);
+        RefreshUIFromManagers();
+        ShowTab(GraphicsPanel);
     }
 
     public void ShowGraphicsTab()
@@ -104,13 +104,13 @@ public class SettingsMenu : MonoBehaviour
         ResolutionDropDown.SetValueWithoutNotify(s.ResolutionIndex);
         QualityDropDown.SetValueWithoutNotify(s.QualityIndex);
         FullscreenToggle.SetIsOnWithoutNotify(s.IsFullscreen);
-        //FPSDropDown.SetValueWithoutNotify(FPSToDropdownIndex(s));
+        FPSDropDown.SetValueWithoutNotify(FPSToDropdownIndex(s));
 
         MasterSlider.SetValueWithoutNotify(s.MasterVolume);
         MusicSlider.SetValueWithoutNotify(s.MusicVolume);
         SFXSlider.SetValueWithoutNotify(s.SFXVloume);
 
-        //UpdateVolumeLabels();
+        UpdateVolumeLabels();
     }
 
     void RegisterEventListeners()
@@ -126,42 +126,56 @@ public class SettingsMenu : MonoBehaviour
 
         FullscreenToggle.onValueChanged.AddListener(v => SettingsManager.Instance?.SetFullscreen(v));
 
-        //FPSDropDown.onValueChanged.AddListener(i => SettingsManager.Instance?.SetTargetFPS(DropdownIndexToFPS(i)));
+        FPSDropDown.onValueChanged.AddListener(i => SettingsManager.Instance?.SetTargetFPS(DropdownIndexToFPS(i)));
 
         // Audio — live preview
-        //MasterSlider.onValueChanged.AddListener(v => { SettingsManager.Instance?.SetMasterVolume(v); UpdateVolumeLabels();});
+        MasterSlider.onValueChanged.AddListener(v => { SettingsManager.Instance?.SetMasterVolume(v); UpdateVolumeLabels();});
         
-        //MusicSlider.onValueChanged.AddListener(v => { SettingsManager.Instance?.SetMusicVolume(v); UpdateVolumeLabels();});
+        MusicSlider.onValueChanged.AddListener(v => { SettingsManager.Instance?.SetMusicVolume(v); UpdateVolumeLabels();});
 
-        //SFXSlider.onValueChanged.AddListener(v => { SettingsManager.Instance?.SetSFXVolume(v); UpdateVolumeLabels();});
+        SFXSlider.onValueChanged.AddListener(v => { SettingsManager.Instance?.SetSFXVolume(v); UpdateVolumeLabels();});
 
         // Footer
-        //ApplyButton.onClick.AddListener(OnApply);
-        //CloseButton.onClick.AddListener(OnClose);
+        ApplyButton.onClick.AddListener(OnApply);
+        CloseButton.onClick.AddListener(OnClose);
     }
 
     void OnApply()
     {
-
+        SettingsManager.Instance?.SaveAll();
     }
 
     void OnClose()
     {
-
+        RefreshUIFromManagers();
+        gameObject.SetActive(false);
     }
 
     void UpdateVolumeLabels()
     {
-
+        if (MasterValueLabel)
+            MasterValueLabel.text = $"{Mathf.RoundToInt(MasterSlider.value * 100)}%";
+        if (MusicValueLabel)
+            MusicValueLabel.text = $"{Mathf.RoundToInt(MusicSlider.value * 100)}%";
+        if (SFXValueLabel)
+            SFXValueLabel.text = $"{Mathf.RoundToInt(SFXSlider.value * 100)}%";
     }
 
     static int FPSToDropdownIndex(int fps) => fps switch
     {
-
+        30 => 0, 
+        60 => 1, 
+        120 => 2,
+        144 => 3, 
+        _ => 4
     };
 
     static int DropdownIndexToFPS(int index) => index switch 
     {
-    
+        0 => 30,
+        1 => 60,
+        2 => 120, 
+        3 => 144, 
+        _ => -1
     };
 }

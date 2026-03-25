@@ -115,5 +115,7 @@ public class SettingsManager : MonoBehaviour
         float db = linearValue > 0.0001f ? Mathf.Log10(linearValue) * 20f : -80f;
         audioMixer.SetFloat(parameterName, db);
     }
+
+    public void SaveAll() => PlayerPrefs.Save();
 }
     
