@@ -17,6 +17,8 @@ public class MapLoad : MonoBehaviour
 
     void Start()
     {
+        
+
         if (GameConfig.SelectedMode == GameConfig.GameMode.VSAI)
         {
             for (int i = 0; i < AI.Length; i++)

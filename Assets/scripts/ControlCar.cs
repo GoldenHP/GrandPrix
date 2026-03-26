@@ -114,7 +114,7 @@ public class ControlCar : MonoBehaviour
 
 
         float targetAngle = steer * MaxSteerAngle;
-        _currentSteerAngle = Mathf.Lerp(_currentSteerAngle, targetAngle, Time.deltaTime);
+        _currentSteerAngle = Mathf.Lerp(_currentSteerAngle, targetAngle, Time.deltaTime*SteerSmoothSpeed);
 
         Vector3 euler1 = Wheels[0].transform.localEulerAngles;
         Vector3 euler2 = Wheels[1].transform.localEulerAngles;

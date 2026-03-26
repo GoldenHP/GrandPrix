@@ -26,6 +26,9 @@ public class AiScript : Agent
     [Header("Training")]
     [SerializeField] public int MaxSteps = 0;
 
+    [Header("Wheels")]
+    [SerializeField] GameObject[] Wheels = new GameObject[4];
+
     private Vector3 StartingPosition;
     private Quaternion StartingRotation;
 
@@ -35,6 +38,9 @@ public class AiScript : Agent
     private float cumulativeReward = 0f;
     private int currentSteps = 0;
 
+    private float MaxSteerAngle = 30f;
+    private float SteerSmoothSpeed = 10f;
+    private float _currentSteerAngle = 0f;
 
     [Header("Reward Weights")]
     [Tooltip("Multiplier for distance-progress reward each step")]
@@ -124,10 +130,10 @@ public class AiScript : Agent
         ApplyGrip();
         ApplyDownforce();
         ClampSpeed();
+        AnimateWheels();
 
 
 
- 
         float currentDistance = Vector3.Distance(transform.position, checkpoints[CurrentCheckpoint].position);
         float progress = PreviousDistance - currentDistance;
         AddReward(progress * progressRewardScale);
@@ -252,5 +258,29 @@ public class AiScript : Agent
         StartingPosition.y -= 10;
         transform.rotation = StartingRotation;
         //EndEpisode();
+    }
+
+    void AnimateWheels()
+    {
+        Vector3 localAngularVelocity = rb.transform.InverseTransformDirection(rb.angularVelocity);
+        float spinSpeed = localAngularVelocity.x * Mathf.Rad2Deg;
+        float delta = spinSpeed * Time.deltaTime;
+
+        Wheels[0].transform.Rotate(Vector3.right, delta, Space.Self);
+        Wheels[1].transform.Rotate(Vector3.right, delta, Space.Self);
+        Wheels[2].transform.Rotate(Vector3.right, delta, Space.Self);
+        Wheels[3].transform.Rotate(Vector3.right, delta, Space.Self);
+
+
+        float targetAngle = steer * MaxSteerAngle;
+        _currentSteerAngle = Mathf.Lerp(_currentSteerAngle, targetAngle, Time.deltaTime * SteerSmoothSpeed);
+
+        Vector3 euler1 = Wheels[0].transform.localEulerAngles;
+        Vector3 euler2 = Wheels[1].transform.localEulerAngles;
+
+        euler1.y = euler2.y = _currentSteerAngle;
+
+        Wheels[0].transform.localEulerAngles = euler1;
+        Wheels[1].transform.localEulerAngles = euler2;
     }
 }

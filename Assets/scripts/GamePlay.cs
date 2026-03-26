@@ -1,6 +1,7 @@
 using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GamePlay : MonoBehaviour
 {
@@ -27,7 +28,6 @@ public class GamePlay : MonoBehaviour
     private bool CheckPoint1Hit;
     private float[] TimeCount = new float[4];
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         SectorTime.text = SectorBase;
@@ -100,6 +100,11 @@ public class GamePlay : MonoBehaviour
         LapCounter++;
         LapTime.text = LapBase + " " + LapCounter.ToString() + " " + CalMinutes(Time).ToString("F0")
             + ":" + CalSeconds(Time).ToString("F0");
+
+        if (LapCounter == 3) 
+        {
+            
+        }
     }
 
     private int CalMinutes(float Time)
