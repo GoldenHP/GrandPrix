@@ -73,6 +73,8 @@ public class AiScript : Agent
 
     private bool touchingWall = false;
 
+    public int RacingNumber { get; set; }
+
     public override void Initialize()
     {
         rb = GetComponent<Rigidbody>();

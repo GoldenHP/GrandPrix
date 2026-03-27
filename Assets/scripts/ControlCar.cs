@@ -33,6 +33,8 @@ public class ControlCar : MonoBehaviour
     private float SteerSmoothSpeed = 10f;
     private float _currentSteerAngle = 0f;
 
+    public int RacingNumber { get; set; }
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();

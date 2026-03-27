@@ -17,16 +17,18 @@ public class MapLoad : MonoBehaviour
 
     void Start()
     {
-        
-
         if (GameConfig.SelectedMode == GameConfig.GameMode.VSAI)
         {
+            //AI will be cars 0 - 6
             for (int i = 0; i < AI.Length; i++)
             {
                 Instantiate(AI[i], Locations[i].transform);
+                AI[i].GetComponent<AiScript>().RacingNumber = i;
             }
 
+            //PLayer will be car #7
             Instantiate(Player, Locations[7].transform);
+            Player.GetComponent<ControlCar>().RacingNumber = 7;
             NumberOfLaps = 3;
         }
 

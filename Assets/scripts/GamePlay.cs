@@ -12,13 +12,13 @@ public class GamePlay : MonoBehaviour
     public TMP_Text LapTime;
     public TMP_Text CarSpeed;
 
-    [Header("Set Dynamically")]
-    public float Sector1Time;
-    public float Sector2Time;
-    public float Sector3Time;
-    public float TotalLapTime;
-    public int LapCounter;
-    public int CarSpeedMilesPerHour;
+    //[Header("Set Dynamically")]
+    private float Sector1Time;
+    private float Sector2Time;
+    private float Sector3Time;
+    private float TotalLapTime;
+    private int LapCounter;
+    private int CarSpeedMilesPerHour;
     private GameObject[] Sectors;
     private string SectorBase = "Sector ";
     private string LapBase = "Lap ";
@@ -100,11 +100,6 @@ public class GamePlay : MonoBehaviour
         LapCounter++;
         LapTime.text = LapBase + " " + LapCounter.ToString() + " " + CalMinutes(Time).ToString("F0")
             + ":" + CalSeconds(Time).ToString("F0");
-
-        if (LapCounter == 3) 
-        {
-            
-        }
     }
 
     private int CalMinutes(float Time)
@@ -138,28 +133,8 @@ public class GamePlay : MonoBehaviour
         CheckPoint1Hit = false;
     }
 
-    /*public void AICheckPointHit(int CheckPointNumber, int AINumber)
+    public bool HasCompletedLap(int lapNumber)
     {
-        switch (CheckPointNumber)
-        {
-            case 1:
-                AICarsCheckpoint[AINumber] = 2;
-                break;
-            case 2:
-                AICarsCheckpoint[AINumber] = 3;
-                break;
-            case 3:
-                AICarsCheckpoint[AINumber] = 1;
-                break;
-            default:
-                break;
-        }
-
+        return LapCounter == lapNumber;
     }
-
-    public int AINewTarget(int AINumber)
-    {
-        Debug.Log(AICarsCheckpoint[AINumber]);
-        return AICarsCheckpoint[AINumber];       
-    }*/
 }
