@@ -36,6 +36,9 @@ public class GamePlay : MonoBehaviour
         CheckPoint1Hit = false;
 
         LapCounter = 0;
+
+        MapLoad Map = gameObject.GetComponent<MapLoad>();
+        PlayerCar = Map.SpawnedPlayer;
     }
 
     public void CheckPointHit(int checkpoint)

@@ -80,6 +80,10 @@ public class AiScript : Agent
         rb = GetComponent<Rigidbody>();
         StartingPosition = transform.position;
         StartingRotation = transform.rotation;
+
+        checkpoints[0] = GameObject.Find("CheckPoint1").gameObject.transform;
+        checkpoints[1] = GameObject.Find("CheckPoint2").gameObject.transform;
+        checkpoints[2] = GameObject.Find("CheckPoint3").gameObject.transform;
     }
 
     public override void OnEpisodeBegin()
@@ -106,18 +110,19 @@ public class AiScript : Agent
 
         sensor.AddObservation(rb.linearVelocity.magnitude / maxspeed);
 
-
-        Vector3 dirToCheckpoint = (checkpoints[CurrentCheckpoint].position - transform.position).normalized;
-        sensor.AddObservation(transform.InverseTransformDirection(dirToCheckpoint));
-
+        if (checkpoints[CurrentCheckpoint] != null)
+        {
+            Vector3 dirToCheckpoint = (checkpoints[CurrentCheckpoint].position - transform.position).normalized;
+            sensor.AddObservation(transform.InverseTransformDirection(dirToCheckpoint));
+        }
 
         sensor.AddObservation(transform.forward);
 
-
-        float dist = Vector3.Distance(transform.position, checkpoints[CurrentCheckpoint].position);
-        sensor.AddObservation(dist / 100f);   
-
-
+        if (checkpoints[CurrentCheckpoint] != null)
+        {
+            float dist = Vector3.Distance(transform.position, checkpoints[CurrentCheckpoint].position);
+            sensor.AddObservation(dist / 100f);
+        }
     }
 
     public override void OnActionReceived(ActionBuffers actions)

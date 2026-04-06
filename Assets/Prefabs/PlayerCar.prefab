@@ -505,9 +505,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bac594dac36a0c6448035fb51267ace9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ControlCar
-  acceleration: 35
-  maxspeed: 25
-  turnstrength: 120
+  acceleration: 50
+  maxspeed: 300
+  turnstrength: 250
   driftGrip: 0.95
   downForce: 50
   Wheels:

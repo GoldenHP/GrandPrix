@@ -93,7 +93,7 @@ public class GameModeSelector : MonoBehaviour
     public void LoadGame()
     {
         int index;
-        SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene());
+        //SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene());
         switch (SelectedMap) 
         {
             case Maps.OVALOUT:

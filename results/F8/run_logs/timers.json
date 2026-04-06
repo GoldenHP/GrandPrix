@@ -1,0 +1,49 @@
+{
+    "name": "root",
+    "metadata": {
+        "timer_format_version": "0.1.0",
+        "start_time_seconds": "1775046551",
+        "python_version": "3.10.12 | packaged by Anaconda, Inc. | (main, Jul  5 2023, 19:01:18) [MSC v.1916 64 bit (AMD64)]",
+        "command_line_arguments": "C:\\Users\\logan\\miniconda3\\envs\\MlUnity\\Scripts\\mlagents-learn Configs\\F8.yaml --run-id=F8 --resume",
+        "mlagents_version": "1.2.0.dev0",
+        "mlagents_envs_version": "1.2.0.dev0",
+        "communication_protocol_version": "1.5.0",
+        "pytorch_version": "2.10.0+cu128",
+        "numpy_version": "1.23.5",
+        "end_time_seconds": "1775046559"
+    },
+    "total": 8.05775019992143,
+    "count": 1,
+    "self": 0.007809899980202317,
+    "children": {
+        "run_training.setup": {
+            "total": 0.06890029995702207,
+            "count": 1,
+            "self": 0.06890029995702207
+        },
+        "TrainerController.start_learning": {
+            "total": 7.981039999984205,
+            "count": 1,
+            "self": 7.880013436079025e-05,
+            "children": {
+                "TrainerController._reset_env": {
+                    "total": 7.9713715999387205,
+                    "count": 1,
+                    "self": 7.9713715999387205
+                },
+                "TrainerController._save_models": {
+                    "total": 0.009589599911123514,
+                    "count": 1,
+                    "self": 2.019992098212242e-05,
+                    "children": {
+                        "RLTrainer._checkpoint": {
+                            "total": 0.009569399990141392,
+                            "count": 1,
+                            "self": 0.009569399990141392
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
