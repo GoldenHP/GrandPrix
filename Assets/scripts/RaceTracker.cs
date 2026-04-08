@@ -47,7 +47,7 @@ public class RaceTracker : MonoBehaviour
         LapsToWin = Loader.NumberOfLaps;
     }
 
-    void PlayerLapComplete()
+    public void PlayerLapComplete()
     {
         LapTrackerPlayer++;
         if (LapTrackerPlayer == LapsToWin)

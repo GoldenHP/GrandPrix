@@ -7,6 +7,7 @@ TagManager:
   - AI
   - Wall
   - Track
+  - check
   layers:
   - Default
   - TransparentFX

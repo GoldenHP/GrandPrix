@@ -28,6 +28,8 @@ public class GamePlay : MonoBehaviour
     private bool CheckPoint1Hit;
     private float[] TimeCount = new float[4];
 
+    private RaceTracker tracker;
+
     void Start()
     {
         SectorTime.text = SectorBase;
@@ -39,6 +41,8 @@ public class GamePlay : MonoBehaviour
 
         MapLoad Map = gameObject.GetComponent<MapLoad>();
         PlayerCar = Map.SpawnedPlayer;
+
+        tracker = gameObject.GetComponent<RaceTracker>();
     }
 
     public void CheckPointHit(int checkpoint)
@@ -62,6 +66,7 @@ public class GamePlay : MonoBehaviour
                 ResetLap();
 
                 TimeCount[0] = Time.time;
+                tracker.PlayerLapComplete();
             }
         }
        else if(checkpoint == 2)

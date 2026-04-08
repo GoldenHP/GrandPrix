@@ -40,8 +40,15 @@ public class ControlCar : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         rb.centerOfMass = new Vector3(0, -0.5f, 0);
 
-        CheckPointAndStarts = GameObject.Find("CheckpointsandStarts");
-        Object = CheckPointAndStarts.GetComponent<GamePlay>();
+        //CheckPointAndStarts = GameObject.Find("CheckpointsandStarts");
+        CheckPointAndStarts = GameObject.FindGameObjectWithTag("check");
+        if (!CheckPointAndStarts)
+            Debug.LogError("CheckPoints and Starts Game Object couldnt find");
+
+        if(!TryGetComponent<GamePlay>(out Object))
+        {
+            Debug.LogError("Couldnt find Game Play Script");
+        }
 
         for(int i = 0; i < WheelRB.Length; i++)
         {
