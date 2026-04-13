@@ -8,6 +8,9 @@ TagManager:
   - Wall
   - Track
   - check
+  - Waypoint
+  - raceui
+  - Set
   layers:
   - Default
   - TransparentFX

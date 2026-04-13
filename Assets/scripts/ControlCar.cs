@@ -45,15 +45,20 @@ public class ControlCar : MonoBehaviour
         if (!CheckPointAndStarts)
             Debug.LogError("CheckPoints and Starts Game Object couldnt find");
 
-        if(!TryGetComponent<GamePlay>(out Object))
+        /*if(!TryGetComponent<GamePlay>(out Object))
         {
             Debug.LogError("Couldnt find Game Play Script");
+        }*/
+        if(!CheckPointAndStarts.TryGetComponent<GamePlay>(out Object))
+        {
+            Debug.LogError("Couldn't Find gameplay script");
         }
 
         for(int i = 0; i < WheelRB.Length; i++)
         {
             WheelRB[i] = Wheels[i].GetComponent<Rigidbody>();
         }
+
     }
 
     private void Update()

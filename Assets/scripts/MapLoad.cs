@@ -33,7 +33,8 @@ public class MapLoad : MonoBehaviour
             for (int i = 0; i < AI.Length; i++)
             {
                 SpawnedAI[i] = Instantiate(AI[i], Locations[i].transform.position, Locations[i].transform.rotation);
-                SpawnedAI[i].GetComponent<AiScript>().RacingNumber = i;
+                //SpawnedAI[i].GetComponent<AiScript>().RacingNumber = i;
+                SpawnedAI[i].GetComponent<AiControlCar>().RacingNumber = i;
             }
 
             SpawnedPlayer = Instantiate(Player, Locations[7].transform.position, Locations[7].transform.rotation);
