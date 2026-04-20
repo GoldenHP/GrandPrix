@@ -355,7 +355,7 @@ GameObject:
   - component: {fileID: 6082295936868247242}
   - component: {fileID: 5252914760456972377}
   m_Layer: 7
-  m_Name: SportCar_1
+  m_Name: PlayerCar
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -414,9 +414,9 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e891798fe8b43c24facf7cb3fba05595, type: 2}
+  - {fileID: 2100000, guid: 4ed14bb8924f60d498793deccc183b40, type: 2}
   - {fileID: 2100000, guid: 8a9f7f3c439975a4396dbff47b950232, type: 2}
-  - {fileID: 2100000, guid: 0618c266da2705f46940c9c5e6e7db99, type: 2}
+  - {fileID: 2100000, guid: 3239afae0a137f84a8ce0df205984969, type: 2}
   - {fileID: 2100000, guid: 261b7dbc59ac6c647bf9df60681f81a3, type: 2}
   - {fileID: 2100000, guid: dd8d17b2540681240bdbc142d191a676, type: 2}
   - {fileID: 2100000, guid: 017b2d353e7ef4a49b22ee7ae3f42384, type: 2}
@@ -505,9 +505,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bac594dac36a0c6448035fb51267ace9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ControlCar
-  acceleration: 35
-  maxspeed: 25
-  turnstrength: 120
+  acceleration: 50
+  maxspeed: 300
+  turnstrength: 250
   driftGrip: 0.95
   downForce: 50
   Wheels:

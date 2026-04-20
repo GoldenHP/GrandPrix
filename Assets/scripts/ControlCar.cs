@@ -33,18 +33,32 @@ public class ControlCar : MonoBehaviour
     private float SteerSmoothSpeed = 10f;
     private float _currentSteerAngle = 0f;
 
+    public int RacingNumber { get; set; }
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
         rb.centerOfMass = new Vector3(0, -0.5f, 0);
 
-        CheckPointAndStarts = GameObject.Find("CheckpointsandStarts");
-        Object = CheckPointAndStarts.GetComponent<GamePlay>();
+        //CheckPointAndStarts = GameObject.Find("CheckpointsandStarts");
+        CheckPointAndStarts = GameObject.FindGameObjectWithTag("check");
+        if (!CheckPointAndStarts)
+            Debug.LogError("CheckPoints and Starts Game Object couldnt find");
+
+        /*if(!TryGetComponent<GamePlay>(out Object))
+        {
+            Debug.LogError("Couldnt find Game Play Script");
+        }*/
+        if(!CheckPointAndStarts.TryGetComponent<GamePlay>(out Object))
+        {
+            Debug.LogError("Couldn't Find gameplay script");
+        }
 
         for(int i = 0; i < WheelRB.Length; i++)
         {
             WheelRB[i] = Wheels[i].GetComponent<Rigidbody>();
         }
+
     }
 
     private void Update()
@@ -114,7 +128,7 @@ public class ControlCar : MonoBehaviour
 
 
         float targetAngle = steer * MaxSteerAngle;
-        _currentSteerAngle = Mathf.Lerp(_currentSteerAngle, targetAngle, Time.deltaTime);
+        _currentSteerAngle = Mathf.Lerp(_currentSteerAngle, targetAngle, Time.deltaTime*SteerSmoothSpeed);
 
         Vector3 euler1 = Wheels[0].transform.localEulerAngles;
         Vector3 euler2 = Wheels[1].transform.localEulerAngles;

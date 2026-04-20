@@ -1,5 +1,5 @@
 using Unity.VectorGraphics;
-using UnityEditor.SearchService;
+//using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -13,12 +13,12 @@ public class GameModeSelector : MonoBehaviour
 
     private Maps SelectedMap;
 
-    private const int IDX_OVALCITY = 0;
-    private const int IDX_FORMULA1 = 1;
-    private const int IDX_OVALOUT = 2;
-    private const int IDX_FORMULA8 = 3;
-    private const int IDX_COASTAL = 4;
-    private const int IDX_MAINMENU = 5;
+    private const int IDX_OVALCITY = 1;
+    private const int IDX_FORMULA1 = 2;
+    private const int IDX_OVALOUT = 3;
+    private const int IDX_FORMULA8 = 4;
+    private const int IDX_COASTAL = 5;
+    private const int IDX_MAINMENU = 0;
 
 
     private GameObject GameMode;
@@ -93,7 +93,7 @@ public class GameModeSelector : MonoBehaviour
     public void LoadGame()
     {
         int index;
-        SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene());
+        //SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene());
         switch (SelectedMap) 
         {
             case Maps.OVALOUT:

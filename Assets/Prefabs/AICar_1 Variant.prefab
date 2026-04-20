@@ -71,6 +71,26 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1702416487405757952}
   m_SourcePrefab: {fileID: 100100000, guid: b0ab656c8a1a1454682b8119b0bb65e6, type: 3}
+--- !u!1 &1464944192528509577 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4427411623606738089, guid: b0ab656c8a1a1454682b8119b0bb65e6, type: 3}
+  m_PrefabInstance: {fileID: 2965010749663819296}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &2002514101509572179 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3670308791793840243, guid: b0ab656c8a1a1454682b8119b0bb65e6, type: 3}
+  m_PrefabInstance: {fileID: 2965010749663819296}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &2575489147792779621 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 763408709864054597, guid: b0ab656c8a1a1454682b8119b0bb65e6, type: 3}
+  m_PrefabInstance: {fileID: 2965010749663819296}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &4297809628554714029 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1333406919581035917, guid: b0ab656c8a1a1454682b8119b0bb65e6, type: 3}
+  m_PrefabInstance: {fileID: 2965010749663819296}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &4461106219036240034 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1498816769511251586, guid: b0ab656c8a1a1454682b8119b0bb65e6, type: 3}
@@ -132,6 +152,11 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   MaxSteps: 100000
+  Wheels:
+  - {fileID: 4297809628554714029}
+  - {fileID: 2002514101509572179}
+  - {fileID: 1464944192528509577}
+  - {fileID: 2575489147792779621}
   progressRewardScale: 1
   checkpointReward: 10
   lapCompletionBonus: 20

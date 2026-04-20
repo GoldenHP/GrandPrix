@@ -1,6 +1,7 @@
 using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GamePlay : MonoBehaviour
 {
@@ -11,13 +12,13 @@ public class GamePlay : MonoBehaviour
     public TMP_Text LapTime;
     public TMP_Text CarSpeed;
 
-    [Header("Set Dynamically")]
-    public float Sector1Time;
-    public float Sector2Time;
-    public float Sector3Time;
-    public float TotalLapTime;
-    public int LapCounter;
-    public int CarSpeedMilesPerHour;
+    //[Header("Set Dynamically")]
+    private float Sector1Time;
+    private float Sector2Time;
+    private float Sector3Time;
+    private float TotalLapTime;
+    private int LapCounter;
+    private int CarSpeedMilesPerHour;
     private GameObject[] Sectors;
     private string SectorBase = "Sector ";
     private string LapBase = "Lap ";
@@ -27,7 +28,8 @@ public class GamePlay : MonoBehaviour
     private bool CheckPoint1Hit;
     private float[] TimeCount = new float[4];
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    private RaceTracker tracker;
+
     void Start()
     {
         SectorTime.text = SectorBase;
@@ -36,6 +38,11 @@ public class GamePlay : MonoBehaviour
         CheckPoint1Hit = false;
 
         LapCounter = 0;
+
+        MapLoad Map = gameObject.GetComponent<MapLoad>();
+        PlayerCar = Map.SpawnedPlayer;
+
+        tracker = gameObject.GetComponent<RaceTracker>();
     }
 
     public void CheckPointHit(int checkpoint)
@@ -59,6 +66,7 @@ public class GamePlay : MonoBehaviour
                 ResetLap();
 
                 TimeCount[0] = Time.time;
+                tracker.PlayerLapComplete();
             }
         }
        else if(checkpoint == 2)
@@ -133,28 +141,8 @@ public class GamePlay : MonoBehaviour
         CheckPoint1Hit = false;
     }
 
-    /*public void AICheckPointHit(int CheckPointNumber, int AINumber)
+    public bool HasCompletedLap(int lapNumber)
     {
-        switch (CheckPointNumber)
-        {
-            case 1:
-                AICarsCheckpoint[AINumber] = 2;
-                break;
-            case 2:
-                AICarsCheckpoint[AINumber] = 3;
-                break;
-            case 3:
-                AICarsCheckpoint[AINumber] = 1;
-                break;
-            default:
-                break;
-        }
-
+        return LapCounter == lapNumber;
     }
-
-    public int AINewTarget(int AINumber)
-    {
-        Debug.Log(AICarsCheckpoint[AINumber]);
-        return AICarsCheckpoint[AINumber];       
-    }*/
 }
