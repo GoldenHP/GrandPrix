@@ -90,8 +90,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bd0f4a7644f35248846e28a40419e0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  acceleration: 1500
-  maxSpeed: 30000
+  acceleration: 1000
+  maxSpeed: 25000
   turnStrength: 250
   driftGrip: 0.95
   downForce: 50

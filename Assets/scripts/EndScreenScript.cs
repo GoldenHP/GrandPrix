@@ -5,7 +5,7 @@ public class EndScreenScript : MonoBehaviour
 {
     public void MainMenu()
     {
-        SceneManager.LoadScene(5);
+        SceneManager.LoadScene(0);
     }
 
     public void ExitGame()

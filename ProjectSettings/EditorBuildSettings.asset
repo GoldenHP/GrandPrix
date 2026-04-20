@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/Menu.unity
+    guid: d4ce7289748beb24c9cba28b63eeca86
+  - enabled: 1
     path: Assets/Scenes/Oval City (Track 1).unity
     guid: 99c9720ab356a0642a771bea13969a05
   - enabled: 1
@@ -20,9 +23,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/CoastalTrack (Track 4).unity
     guid: 874740ade97b7494d96c0fffb1c1c6f7
-  - enabled: 1
-    path: Assets/Scenes/Menu.unity
-    guid: d4ce7289748beb24c9cba28b63eeca86
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 5546004ef89692e4aa46eb99fbecef1b, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
