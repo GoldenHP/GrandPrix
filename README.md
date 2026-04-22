@@ -7,4 +7,4 @@ Idea: Arcade Racing Sim Designed in Unity 6.3
 Author: Logan F. Adams
 
 Current State: 
-  Racing tracks and player car implemented. Currently working with ML-Agents to create Machine Learning trained AI with varying difficulty
+  Final Build Created. Ready for presentation
